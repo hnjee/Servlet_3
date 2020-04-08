@@ -9,9 +9,9 @@
 
 ## JSP 
 - pointList.jsp 	: List 출력 
-- pointAdd.jsp 	: 입력폼 
+- pointAdd.jsp 		: 입력폼 
 - pointSelect.jsp 	: 상세정보 출력 
-- pointMod.jsp	: 수정폼 
+- pointMod.jsp		: 수정폼 
 
 ## URL 주소 	  /	JSP 		/ Method 
 ## /WEB-INF/views/point/*
