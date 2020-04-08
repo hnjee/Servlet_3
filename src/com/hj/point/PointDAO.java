@@ -24,6 +24,7 @@ public class PointDAO {
 		st.setDouble(7, pointDTO.getAvg());
 		
 		int res = st.executeUpdate();
+		if(res>0) System.out.println("추가완료");
 		st.close();
 		con.close();
 		return res;

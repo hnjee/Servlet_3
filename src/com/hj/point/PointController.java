@@ -82,8 +82,6 @@ public class PointController extends HttpServlet {
 				pointDTO.setKor(Integer.parseInt(request.getParameter("kor")));
 				pointDTO.setEng(Integer.parseInt(request.getParameter("eng")));
 				pointDTO.setMath(Integer.parseInt(request.getParameter("math")));
-				pointDTO.setTot(Integer.parseInt(request.getParameter("tot")));
-				pointDTO.setAvg(Integer.parseInt(request.getParameter("avg")));
 				
 				int res2 = pointService.pointAdd(pointDTO);
 		
@@ -91,14 +89,11 @@ public class PointController extends HttpServlet {
 					path = "./pointList";
 				}
 			} else {
-				System.out.println("점수 입력창으로 이동");
-				RequestDispatcher view = request.getRequestDispatcher("../WebContent/WEB-INF/views/point/pointAdd.jsp");
+				System.out.println("점수 입력창으로 이동"+chk);
+				RequestDispatcher view = request.getRequestDispatcher("../WEB-INF/views/point/pointAdd.jsp");
 				//WEB-INF는 백엔드에서만 접속 가능하다 (보안) 
 				view.forward(request, response);
 			}
-			
-			
-			path = "../WEB-INF/views/point/pointAdd.jsp";
 			break;
 		case "/pointMod":
 			if(method.equals("POST")) {
