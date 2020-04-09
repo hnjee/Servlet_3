@@ -24,3 +24,4 @@
 - /point/pointDelete /					/ GET
 
 # 집에서 추가
+# 집에서 추가 2
