@@ -1,9 +1,33 @@
 # Servlet_3
 
 ## 기능 
+
+### member 
+- 회원 가입      	: insert
+- 회원 로그인   	: select
+- 회원 수정	: update
+- 회원 탈퇴 	: delete 
+- 내 정보 보기 
+
+## JSP
+- /WEB-INF/views/member/..
+
+URL
+/member/memberJoin		memberJoin.jsp		GET
+/member/memberJoin							POST
+/member/memberLogin		memberLogin.jsp 	GET 
+/member/memberLogin							POST
+/member/memberJoin
+/member/memberPage		memberPage.jsp		GET
+/member/memberUpdate	memberUpdate.jsp	GET
+/member/memberUpdate						POST
+/member/memberDelete						GET
+
+
+### point 
 - point list 출력
 - point 등록
-- point 상세 정보 출력
+- point 상세 정보 출력	
 - point 수정
 - point 삭제
 

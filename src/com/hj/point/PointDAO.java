@@ -64,7 +64,7 @@ public class PointDAO {
 		st.setInt(1, num);
 		res = st.executeUpdate();
 		if(res>0) {
-			System.out.println("등록 완료");
+			System.out.println("삭제완료");
 		}
 		
 		st.close();
