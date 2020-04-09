@@ -47,35 +47,59 @@ public class PointController extends HttpServlet {
 		
 		//path 담을 변수
 		String path = "";
+		int res = 0;
+		int num = 0;
 		try {
 		switch (command) {
 		case "/pointList":
-		
-				ArrayList<PointDTO> ar = pointService.pointList();
-				request.setAttribute("list", ar);
+			ArrayList<PointDTO> ar = pointService.pointList();
+			request.setAttribute("list", ar);
 			path = "../WEB-INF/views/point/pointList.jsp";
 			break;
+			
 		case "/pointSelect":
 			if(method.equals("POST")) {
 			} else {
-				int num = Integer.parseInt(request.getParameter("num"));
+				num = Integer.parseInt(request.getParameter("num"));
 				PointDTO pointDTO = pointService.pointSelect(num);
 				request.setAttribute("dto", pointDTO);
 				path = "../WEB-INF/views/point/pointSelect.jsp";
 			}
 			break;
+			
 		case "/pointDelete":
 			chk=false;
-			int num = Integer.parseInt(request.getParameter("num"));
-			int res = pointService.pointDelete(num);
-			System.out.println(res);
+			num = Integer.parseInt(request.getParameter("num"));
+			res = pointService.pointDelete(num);
 			if(res>0) {
 				path = "./pointList";
 			}
 			break;
+			
 		case "/pointAdd":
 			if(method.equals("POST")) {
-				chk = false;
+				PointDTO pointDTO = new PointDTO();
+				pointDTO.setName(request.getParameter("name"));
+				pointDTO.setNum(Integer.parseInt(request.getParameter("num")));
+				pointDTO.setKor(Integer.parseInt(request.getParameter("kor")));
+				pointDTO.setEng(Integer.parseInt(request.getParameter("eng")));
+				pointDTO.setMath(Integer.parseInt(request.getParameter("math")));
+				request.setAttribute("dto", pointDTO);
+				res = pointService.pointAdd(pointDTO);
+				String msg ="점수 등록 실패";
+				if(res>0) msg="점수 등록 성공";
+				request.setAttribute("result", msg);
+				request.setAttribute("path", "./pointList");
+				path="../WEB-INF/views/common/result.jsp";
+			} else {
+				RequestDispatcher view = request.getRequestDispatcher("../WEB-INF/views/point/pointAdd.jsp");
+				//WEB-INF는 백엔드에서만 접속 가능하다 (보안) 
+				view.forward(request, response);
+			}
+			break;
+		case "/pointMod":
+		
+			if(method.equals("POST")) {
 				PointDTO pointDTO = new PointDTO();
 				pointDTO.setName(request.getParameter("name"));
 				pointDTO.setNum(Integer.parseInt(request.getParameter("num")));
@@ -83,25 +107,25 @@ public class PointController extends HttpServlet {
 				pointDTO.setEng(Integer.parseInt(request.getParameter("eng")));
 				pointDTO.setMath(Integer.parseInt(request.getParameter("math")));
 				
-				int res2 = pointService.pointAdd(pointDTO);
-		
-				if(res2>0) {
-					path = "./pointList";
+				res = pointService.pointMod(pointDTO);
+				String msg = "점수 수정 실패";
+				if(res>0) {
+					msg="점수 수정 성공";
+					request.setAttribute("path", "./pointSelect?num="+pointDTO.getNum());
+				} else {
+					request.setAttribute("path", "./pointList");
 				}
+				request.setAttribute("result", msg);
+				path="../WEB-INF/views/common/result.jsp";
 			} else {
-				System.out.println("점수 입력창으로 이동"+chk);
-				RequestDispatcher view = request.getRequestDispatcher("../WEB-INF/views/point/pointAdd.jsp");
-				//WEB-INF는 백엔드에서만 접속 가능하다 (보안) 
+				num = Integer.parseInt(request.getParameter("num"));
+				PointDTO pointDTO = pointService.pointSelect(num); 
+				request.setAttribute("dto", pointDTO);
+				RequestDispatcher view = request.getRequestDispatcher("../WEB-INF/views/point/pointMod.jsp");
 				view.forward(request, response);
 			}
 			break;
-		case "/pointMod":
-			if(method.equals("POST")) {
-			} else {
-				chk = true;
-				path = "../WEB-INF/views/point/pointMod.jsp";
-			}
-			break;
+			
 		default:
 			System.out.println("Ect");
 			break;
@@ -109,6 +133,7 @@ public class PointController extends HttpServlet {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
+		
 		if(chk) { //forward
 			RequestDispatcher view = request.getRequestDispatcher(path);
 			view.forward(request, response);

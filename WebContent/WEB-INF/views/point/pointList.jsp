@@ -19,7 +19,7 @@
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="#">WebSiteName</a>
+	      <a class="navbar-brand" href="#">HJ SCHOOL</a>
 	    </div>
 	    <ul class="nav navbar-nav">
 	      <li class="active"><a href="${pageContext.request.contextPath}">Home</a></li>
@@ -42,16 +42,15 @@
 	
 	<div class="container">
 	  <div class="jumbotron">
-	    <h1>Bootstrap Tutorial</h1>      
-	    <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p>
+	    <h1>Point List</h1>      
+	    <p>모든 학생의 점수를 확인할 수 있습니다.</p>
 	  </div>
-	  <p>This is some text.</p>      
-	  <p>This is another text.</p>      
+	 
 	</div>
 	
 	<div class="container">
 		<div class="row">
-			<h1>Point List Page</h1>
+			<h1>Point List</h1>
 			<table class="table table-hover">
 				<tr>
 					<td>번호</td>
