@@ -4,16 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBConnect {
-	public static void main(String[] args) {
-		Connection con;
-		try {
-			con = DBConnect.getConnection();
-			System.out.println(con);
-		}catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	public static Connection getConnection() throws Exception {
 		//1. 로그인 정보 4가지
 		String user = "user02";
@@ -41,6 +31,16 @@ public class DBConnect {
 		Connection con = DriverManager.getConnection(url, user, password);
 		
 		return con;
+	}
+	public static void main(String[] args) {
+		Connection con;
+		try {
+			con = DBConnect.getConnection();
+			System.out.println(con);
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

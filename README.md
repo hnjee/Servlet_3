@@ -17,7 +17,6 @@ URL
 /member/memberJoin							POST
 /member/memberLogin		memberLogin.jsp 	GET 
 /member/memberLogin							POST
-/member/memberJoin
 /member/memberPage		memberPage.jsp		GET
 /member/memberUpdate	memberUpdate.jsp	GET
 /member/memberUpdate						POST

@@ -4,12 +4,12 @@ public class PointDTO {
 	// DTO (Data Transfer Object)
 	// VO (Value Object)
 	
-	// DTO 만드는 규칙  
-	// 1. 변수의 접근제어자 private
-	// 2. 변수의 Data Type과 변수명은 Table의 컬럼명과 일치시켜야함
-	// 3. Getter / Setter 
-	// 4. 생성자가 여러개 있어도 되지만 디폴트 생성자는 꼭 있어야함
-	//    디폴트 생성자는 다른 생성자가 없으면 컴파일러가 자동으로 만들지만, 만약 다른 생성자를 만들면 자동으로 생성되지 않기 때문에 반드시 따로 만들어 놓을것 
+//	 DTO 만드는 규칙  
+//	 1. 변수의 접근제어자 private
+//	 2. 변수의 Data Type과 변수명은 Table의 컬럼명과 일치시켜야함
+//	 3. Getter / Setter 
+//	 4. 생성자가 여러개 있어도 되지만 디폴트 생성자는 꼭 있어야함
+//	    디폴트 생성자는 다른 생성자가 없으면 컴파일러가 자동으로 만들지만, 만약 다른 생성자를 만들면 자동으로 생성되지 않기 때문에 반드시 따로 만들어 놓을것 
  	
 	private String name;
 	private int num;
