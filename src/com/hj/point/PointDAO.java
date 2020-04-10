@@ -139,9 +139,4 @@ public class PointDAO {
 		
 		return ar;
 	}
-	
-	// 2. SelectOne 
-	// 3. Insert
-	// 4. Update
-	// 5. Delete
 }

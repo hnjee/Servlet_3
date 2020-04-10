@@ -98,18 +98,20 @@ public class MemberController extends HttpServlet {
 			
 		case "/memberLogout":
 			if (chkOut) {
+				//기본 로그아웃 
 				session = request.getSession();
 				//session.removeAttribute("member");
 				session.invalidate();
 				chk = false;
 				path="../";
 			} else {
+				//탈퇴 로그아웃 
 				session = request.getSession();
 				//session.removeAttribute("member");
 				session.invalidate();
 				String msg ="정상적으로 탈퇴되었습니다.";
 				request.setAttribute("result", msg);
-				request.setAttribute("path", "./");
+				request.setAttribute("path", "../");
 				path="../WEB-INF/views/common/result.jsp";
 			}
 			
@@ -118,13 +120,14 @@ public class MemberController extends HttpServlet {
 		case "/memberDelete":
 			session = request.getSession();
 			memberDTO = (MemberDTO)session.getAttribute("member");
-			memberDTO.setPw((String)request.getAttribute("pw"));
 			System.out.println(memberDTO.getPw());
+			memberDTO.setPw(request.getParameter("pw"));
+			System.out.println(memberDTO.getPw());
+		
 			res = memberService.memberDelete(memberDTO);
-			
+		
 			if(res>0) {
-				System.out.println("비번오키");
-				chkOut=false;
+				chkOut=false; //탈퇴 로그아웃 
 				chk=false;
 				path="./memberLogout";	
 			}
