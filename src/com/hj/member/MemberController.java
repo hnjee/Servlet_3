@@ -24,6 +24,7 @@ public class MemberController extends HttpServlet {
     public MemberController() {
         super();
         memberService = new MemberService();
+        
         // TODO Auto-generated constructor stub
     }
 
@@ -41,16 +42,18 @@ public class MemberController extends HttpServlet {
 		String method = request.getMethod();
 		//Forward, Redirect 선택 
 		boolean chk = true; //forward: true, redirect: false
-		//path 담을 변수 
+		//변수들 
 		String path = "";
-
 		int num = 0;
-		
+		int res = 0;
+		HttpSession session = null;
+		MemberDTO memberDTO = null;
+		boolean chkOut = false; //true: 보통 로그아웃, false: 탈퇴 로그아웃
 		try {
 		switch (command) {
 		case "/memberJoin":
 			if(method.equals("POST")) {
-				MemberDTO memberDTO = new MemberDTO();
+				memberDTO = new MemberDTO();
 				memberDTO.setId(request.getParameter("id"));
 				memberDTO.setPw(request.getParameter("pw"));
 				memberDTO.setName(request.getParameter("name"));
@@ -58,24 +61,27 @@ public class MemberController extends HttpServlet {
 				memberDTO.setPhone(request.getParameter("phone"));
 				memberDTO.setEmail(request.getParameter("email"));
 				
-				int res = memberService.memberJoin(memberDTO);
+				res = memberService.memberJoin(memberDTO);
 				chk = false;
 				path="../";
+				//리다이렉트 방식 
 			} else {
-				System.out.println("회원가입 폼 가져오기 "+chk);
+				System.out.println("회원가입 폼 가져오기 "+chk); 
 				path="../WEB-INF/views/member/memberJoin.jsp";
+				//포워드 방식 
 			}
 			break;
 			
 		case "/memberLogin":
+	
 			if(method.equals("POST")) {
-				MemberDTO memberDTO = new MemberDTO();
+				memberDTO = new MemberDTO();
 				memberDTO.setId(request.getParameter("id"));
 				memberDTO.setPw(request.getParameter("pw"));
-				MemberDTO res = memberService.memberLogin(memberDTO);
-				if(res!=null) {
+				memberDTO = memberService.memberLogin(memberDTO);
+				if(memberDTO!=null) {
 					System.out.println("로그인성공");
-					HttpSession session = request.getSession();
+					session = request.getSession();
 					session.setAttribute("member", memberDTO);
 					chk = false;
 					path="../";
@@ -89,20 +95,73 @@ public class MemberController extends HttpServlet {
 				path="../WEB-INF/views/member/memberLogin.jsp";
 			}
 			break;
+			
 		case "/memberLogout":
-			HttpSession session = request.getSession();
-			//session.removeAttribute("member");
-			session.invalidate();
-			chk = false;
-			path="../";
+			if (chkOut) {
+				session = request.getSession();
+				//session.removeAttribute("member");
+				session.invalidate();
+				chk = false;
+				path="../";
+			} else {
+				session = request.getSession();
+				//session.removeAttribute("member");
+				session.invalidate();
+				String msg ="정상적으로 탈퇴되었습니다.";
+				request.setAttribute("result", msg);
+				request.setAttribute("path", "./");
+				path="../WEB-INF/views/common/result.jsp";
+			}
+			
+			break;
+			
 		case "/memberDelete":
+			session = request.getSession();
+			memberDTO = (MemberDTO)session.getAttribute("member");
+			memberDTO.setPw((String)request.getAttribute("pw"));
+			System.out.println(memberDTO.getPw());
+			res = memberService.memberDelete(memberDTO);
+			
+			if(res>0) {
+				System.out.println("비번오키");
+				chkOut=false;
+				chk=false;
+				path="./memberLogout";	
+			}
+			else {
+				String msg ="비밀번호가 일치하지 않습니다. 다시 입력해주세요.";
+				request.setAttribute("result", msg);
+				request.setAttribute("path", "./memberPage");
+				path="../WEB-INF/views/common/result.jsp";
+			}
 			
 			break;		
 			
 		case "/memberUpdate":
 			if(method.equals("POST")) {
-			} else {
+				memberDTO = new MemberDTO();
+				memberDTO.setId(request.getParameter("id"));
+				memberDTO.setPw(request.getParameter("pw"));
+				memberDTO.setName(request.getParameter("name"));
+				memberDTO.setAge(Integer.parseInt(request.getParameter("age")));
+				memberDTO.setPhone(request.getParameter("phone"));
+				memberDTO.setEmail(request.getParameter("email"));
+				res = memberService.memberUpdate(memberDTO);
 				
+				request.setAttribute("method", method);
+				request.setAttribute("result", res);
+				if(res>0) {
+					session = request.getSession();
+					session.setAttribute("member", memberDTO);
+					chk=false;
+					path="../";
+				} else {
+					path="../WEB-INF/views/member/memberUpdate.jsp";
+				}
+				
+			} else {
+				System.out.println("수정 폼 가져오기 "+chk);
+				path="../WEB-INF/views/member/memberUpdate.jsp";
 			}
 			break;
 			
@@ -114,9 +173,11 @@ public class MemberController extends HttpServlet {
 		default:
 			break;
 		}
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		if(chk) {
 			//Forward
 			RequestDispatcher view = request.getRequestDispatcher(path);

@@ -7,6 +7,44 @@ import java.sql.ResultSet;
 import com.hj.util.DBConnect;
 
 public class MemberDAO {
+	//4. Update
+	public int memberUpdate(MemberDTO memberDTO) throws Exception {
+		Connection con = DBConnect.getConnection();
+		String sql="update member set pw=?, name=?, age=?, phone=?, email=? where id=? and pw =?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, memberDTO.getPw());
+		st.setString(2, memberDTO.getName());
+		st.setInt(3, memberDTO.getAge());
+		st.setString(4, memberDTO.getPhone());
+		st.setString(5, memberDTO.getEmail());
+		st.setString(6, memberDTO.getId());
+		st.setString(7, memberDTO.getPw());
+		
+		int res = st.executeUpdate();
+		if(res>0) System.out.println("수정완료");
+		
+		st.close();
+		con.close();
+		return res;
+	}
+	
+	//3. Delete
+	public int memberDelete(MemberDTO memberDTO) throws Exception {
+		Connection con = DBConnect.getConnection();
+		String sql="delete member where id = ? and pw =?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, memberDTO.getId());
+		st.setString(2, memberDTO.getPw());
+		
+		int res = st.executeUpdate();
+		if(res>0) System.out.println("삭제완료");
+		
+		st.close();
+		con.close();
+		
+		return res;
+	}
+	
 	//2. Login 
 	public MemberDTO memberLogin(MemberDTO memberDTO) throws Exception{
 		Connection con = DBConnect.getConnection();

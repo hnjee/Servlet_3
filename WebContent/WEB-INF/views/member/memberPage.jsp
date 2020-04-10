@@ -5,47 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<c:import url = "../template/boot.jsp"></c:import>
 </head>
 <body>
-	<!-- Nav -->
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">HJ SCHOOL</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="${pageContext.request.contextPath}">Home</a></li>
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Page 1-1</a></li>
-						<li><a href="#">Page 1-2</a></li>
-						<li><a href="#">Page 1-3</a></li>
-					</ul></li>
-				<li><a
-					href="${pageContext.request.contextPath}/point/pointList">Point</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<c:if test="${empty member}">
-			      <li><a href="${pageContext.request.contextPath}/member/memberJoin"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-			      <li><a href="${pageContext.request.contextPath}/member/memberLogin"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
-			    </c:if>
-			    <c:if test="${not empty member}">
-			      <li><a href="${pageContext.request.contextPath}/member/memberPage"><span class="glyphicon glyphicon-user"></span> MyPage</a></li>
-			      <li><a href="${pageContext.request.contextPath}/member/memberLogout"><span class="glyphicon glyphicon-user"></span> Log out</a></li>
-			    </c:if>
-		    </ul>
-			</div>
-	</nav>
-	<!-- Nav -->
+	<c:import url="../template/header.jsp"></c:import>  
 
 	<div class="container">
 		<div class="jumbotron">
@@ -57,37 +22,49 @@
 	
 	<div class="container">
 	  <h1>Member Information</h1>
-	  <form action="./memberJoin" method="post">
+	  <form action="" method="post">
 	    <div class="form-group">
 	      <label for="id">아이디:</label>
-	      <input type="text" class="form-control" id="id" placeholder="Enter id" name="id" value="${member.id}">
+	      <input type="text" class="form-control" id="id" name="id" value="${member.id}" >
 	    </div>
-	
 	    <div class="form-group">
-	      <label for="pw">비밀번호: </label>
-	      <input type="password" class="form-control" id="pw" placeholder="Enter pw" name="pw" value="${member.pw}">
-	    </div>    
+	      <label for="pw">비밀번호:</label>
+	      <input type="password" class="form-control" id="pw" placeholder="Enter Password" name="pw">
+	    </div>
 	    
 	    <div class="form-group">
 	      <label for="name">이름: </label>
-	      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="${member.name}">
+	      <input type="text" class="form-control" id="name" name="name" value="${member.name}">
 	    </div>  
 	      
 	    <div class="form-group">
 	      <label for="age">나이: </label>
-	      <input type="text" class="form-control" id="age" placeholder="Enter age" name="age" value="${member.age}">
+	      <input type="text" class="form-control" id="age"  name="age" value="${member.age}">
 	    </div> 
 	    
 	     <div class="form-group">
 	      <label for="phone">핸드폰번호: </label>
-	      <input type="text" class="form-control" id="phone" placeholder="Enter phone number" name="phone" value="${member.phone}">
+	      <input type="text" class="form-control" id="phone" name="phone" value="${member.phone}">
 	    </div> 
 	    <div class="form-group">
 	      <label for="email">E-mail: </label>
-	      <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="${member.email}">
-	    </div> 
+	      <input type="text" class="form-control" id="email" name="email" value="${member.email}">
+	    </div>
 	  </form>
+	  <button class="btn btn-primary" id="update">Update</button>
+	  <button class="btn btn-danger" id="delete">Delete</button> 
 	</div>
-
+	<script type="text/javascript">
+		$("#update").click(function(){
+			location.href = "./memberUpdate";
+		});
+		$("#delete").click(function(){
+			var res = confirm("정말 탈퇴하시겠습니까? 비밀번호를 정확히 입력하여야 탈퇴가 가능합니다.");
+			if(res) {
+				location.href = "./memberDelete";
+			} 
+		});
+	</script>
+	
 </body>
 </html>
