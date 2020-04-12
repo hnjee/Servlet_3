@@ -6,14 +6,14 @@ import java.sql.DriverManager;
 public class DBConnect {
 	public static Connection getConnection() throws Exception {
 		//1. 로그인 정보 4가지
-		String user = "user02";
-		String password = "user02";
+		String user = "user01";
+		String password = "user01";
 			//ERR CASE 1. Logon Deny
 			//1) ID/PW 틀렸을 경우
 			//2) DB에 해당 유저가 생성되지 않은 경우
 			//3) 유저의 권한에 적용되지 않은 경우 
 		
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String url = "jdbc:oracle:thin:@192.168.56.101:1521:xe";
 		String driver = "oracle.jdbc.driver.OracleDriver";
 			//ERR CASE 2. not connect
 			//1) ip, port, xe 정보가 틀린경우 

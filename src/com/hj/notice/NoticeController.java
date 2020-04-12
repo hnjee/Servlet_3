@@ -2,6 +2,8 @@ package com.hj.notice;
 
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -25,6 +27,7 @@ public class NoticeController extends HttpServlet {
     public NoticeController() {
         super();
         this.noticeService = new NoticeService();
+       
         // TODO Auto-generated constructor stub
     }
 
@@ -48,23 +51,42 @@ public class NoticeController extends HttpServlet {
 		//변수들
 		String path = "";
 		int res = 0;
-		int num = 0;
+		int no = 0;
+		NoticeDTO noticeDTO = null;
 		
 		try {
+			System.out.println(command);
 		switch (command) {
 		case "/noticeList":
+			//GET방식 
 			ArrayList<NoticeDTO> ar = new ArrayList<NoticeDTO>();
 			ar = noticeService.noticeList();
 			request.setAttribute("list", ar);
-			path="../WEB-INF/views/notice/noticeList.jsp";
+			path="../WEB-INF/views/notice/noticeList.jsp"; //포워드 
 			break;
-			
+
 		case "/noticeSelect":
-			NoticeDTO noticeDTO = new NoticeDTO();
-			noticeDTO.setNo(Integer.parseInt(request.getParameter("no")));
+			noticeDTO = new NoticeDTO();
+			no = Integer.parseInt(request.getParameter("no"));
+			System.out.println(no);
+			noticeDTO = noticeService.noticeSelect(no);
+			request.setAttribute("dto", noticeDTO);
+			path="../WEB-INF/views/notice/noticeSelect.jsp";
+			
 			break;
 
 		case "/noticeAdd":
+			if(method.equals("POST")) {
+				noticeDTO = new NoticeDTO();
+				noticeDTO.setName(request.getParameter("name"));
+				noticeDTO.setSubject(request.getParameter("subject"));
+				noticeDTO.setContents(request.getParameter("contents"));
+				res = noticeService.noticeAdd(noticeDTO);
+				chk=false;
+				path="./noticeList";
+			}else {
+				path="../WEB-INF/views/notice/noticeAdd.jsp";
+			}
 			
 			break;
 			

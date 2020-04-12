@@ -34,13 +34,12 @@
 				<c:forEach items="${list}" var="dto">
 					<tr>
 						<td>${dto.no}</td>
-						<td><a href="./noticeSelect?num=${dto.no}" >${dto.subject}</a></td>
+						<td><a href="./noticeSelect?no=${dto.no}" >${dto.subject}</a></td>
 						<td>${dto.name}</td>
 						<td>${dto.day}</td>
 						<td>${dto.hit}</td>
 					</tr>
 				</c:forEach> 
-				
 			</table>
 			<a href="./noticeAdd" class="btn btn-primary">Add</a>
 		</div>
