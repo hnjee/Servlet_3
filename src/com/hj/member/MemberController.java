@@ -48,7 +48,6 @@ public class MemberController extends HttpServlet {
 		int res = 0;
 		HttpSession session = null;
 		MemberDTO memberDTO = null;
-		boolean chkOut = false; //true: 보통 로그아웃, false: 탈퇴 로그아웃
 		try {
 		switch (command) {
 		case "/memberJoin":
@@ -97,24 +96,11 @@ public class MemberController extends HttpServlet {
 			break;
 			
 		case "/memberLogout":
-			if (chkOut) {
-				//기본 로그아웃 
-				session = request.getSession();
-				//session.removeAttribute("member");
-				session.invalidate();
-				chk = false;
-				path="../";
-			} else {
-				//탈퇴 로그아웃 
-				session = request.getSession();
-				//session.removeAttribute("member");
-				session.invalidate();
-				String msg ="정상적으로 탈퇴되었습니다.";
-				request.setAttribute("result", msg);
-				request.setAttribute("path", "../");
-				path="../WEB-INF/views/common/result.jsp";
-			}
-			
+			session = request.getSession();
+			//session.removeAttribute("member");
+			session.invalidate();
+			chk = false;
+			path="../";
 			break;
 			
 		case "/memberDelete":
@@ -127,7 +113,6 @@ public class MemberController extends HttpServlet {
 			res = memberService.memberDelete(memberDTO);
 		
 			if(res>0) {
-				chkOut=false; //탈퇴 로그아웃 
 				chk=false;
 				path="./memberLogout";	
 			}
