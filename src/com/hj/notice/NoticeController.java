@@ -38,6 +38,9 @@ public class NoticeController extends HttpServlet {
 		//한글 Encoding 처리 
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		
+		getServletConfig().getInitParameter("");
+		getServletContext().getInitParameter("");
 				
 		//pathInfo
 		String command = request.getPathInfo();
